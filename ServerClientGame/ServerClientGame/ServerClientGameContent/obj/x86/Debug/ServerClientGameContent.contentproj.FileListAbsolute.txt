@@ -1,0 +1,2 @@
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGameContent\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Documents\SkyDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGameContent\obj\x86\Debug\ServerClientGameContent.contentprojResolveAssemblyReference.cache
