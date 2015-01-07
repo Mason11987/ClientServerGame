@@ -27,6 +27,7 @@ namespace ServerClientGame.Networking
         public NetworkStream CommStream;
         public double lastServerPing;
         public GameTime lastGameTime;
+        public Dictionary<string, string> Settings = new Dictionary<string, string>() { { "showping", "no" }, { "showsuccess", "no" } };
 
         public bool hasLocalServer { get { return GameRef.Server != null; } }
 
@@ -126,12 +127,13 @@ namespace ServerClientGame.Networking
             if (p is PacketPing)
             {
                 Send(new PacketPing()); //Return Ping
-//#if DEBUG
-//                if (!hasLocalServer)
-//                    console.Output("Server Ping");
-//                else
-//                    GameRef.Server.console.Output("Server Ping");
-//#endif
+                if (Settings["showping"] == "yes")
+                {
+                    if (!hasLocalServer)
+                        console.Output("Server Ping");
+                    else
+                        GameRef.Server.console.Output("Server Ping");
+                }
             }
             else if (p is PacketConsoleCommand)
             {
@@ -186,11 +188,11 @@ namespace ServerClientGame.Networking
             CommandResult result = command.Execute();
 
             if (result == CommandResult.Failed)
-                console.Output("Command Failed");
+                console.Output("*Command Failed*");
             else if (result == CommandResult.NotImplemented)
-                console.Output("Command Not Implemented");
-            else if (result == CommandResult.Success)
-                console.Output("Command Succeeded");
+                console.Output("*Command Not Implemented*");
+            else if (result == CommandResult.Success && Settings["showsuccess"] == "yes")
+                console.Output("*Command Succeeded*");
         }
 
         private void RespondToConsoleInput(string input)

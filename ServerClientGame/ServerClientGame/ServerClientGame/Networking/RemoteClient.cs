@@ -69,10 +69,11 @@ namespace ServerClientGame.Networking
             {
                 p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
 
+
                 lastClientPing = server.lastGameTime.TotalGameTime.TotalSeconds;
-                
+
                 if (server.Settings["showping"] == "yes")
-                    server.console.Output(Name + " Ping");
+                    server.console.Output(Name + " Ping " + Math.Round((lastClientPing - server.LastPing) * 1000) + "ms");
 
                 if (p is PacketConsoleCommand)
                     HandleClientCommand((p as PacketConsoleCommand).CommandType, (p as PacketConsoleCommand).Arguments);

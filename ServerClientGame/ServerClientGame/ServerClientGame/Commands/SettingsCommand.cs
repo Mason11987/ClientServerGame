@@ -19,22 +19,25 @@ namespace ServerClientGame.Commands
             //else
             //    Server.LocalClient.Send(new PacketConsoleCommand(CommandType, args));
 
+            Dictionary<string, string> settings;
             if (Server == null)
-                return CommandResult.Failed;
+                settings = Client.Settings;
+            else
+                settings = Server.Settings;
             
 
             if (Display)
             {
-                console.Output("Server Settings");
-                foreach (var setting in Server.Settings)
+                console.Output("Settings");
+                foreach (var setting in settings)
                     console.Output(string.Format("  {0} - {1}", setting.Key, setting.Value));
                 return CommandResult.Success;
             }
 
             if (Value.Count() > 1)
                 return CommandResult.Failed;
-            
-            Server.Settings[Setting] = Value.First();    
+
+            settings[Setting] = Value.First();    
 
             return CommandResult.Success;
         }
@@ -47,12 +50,19 @@ namespace ServerClientGame.Commands
         {
             if (args.Length == 1)
                 return new SettingsCommand() { Display = true };
+
+            Dictionary<string, string> settings;
+            if (Server == null)
+                settings = Client.Settings;
+            else
+                settings = Server.Settings;
+
             if (args.Length > 1)
-                if (!Server.Settings.ContainsKey(args[1])) throw new UnexpectedCommandArgumentException("Settings change failed, no setting named: " + args[1]);
+                if (!settings.ContainsKey(args[1])) throw new UnexpectedCommandArgumentException("Settings change failed, no setting named: " + args[1]);
             if (args.Length == 2)
             {
-                if (Server.Settings[args[1]] != "no" && Server.Settings[args[1]] != "yes") throw new UnexpectedCommandArgumentException("Settings change failed, setting is not a toggle: " + args[1]);
-                return new SettingsCommand() {Setting = args[1], Value = new string[] {(Server.Settings[args[1]] == "yes" ? "no" : "yes")} };
+                if (settings[args[1]] != "no" && settings[args[1]] != "yes") throw new UnexpectedCommandArgumentException("Settings change failed, setting is not a toggle: " + args[1]);
+                return new SettingsCommand() {Setting = args[1], Value = new string[] {settings[args[1]] == "yes" ? "no" : "yes"} };
             }
             else
                 return new SettingsCommand() { Setting = args[1], Value = args.Skip(2)};

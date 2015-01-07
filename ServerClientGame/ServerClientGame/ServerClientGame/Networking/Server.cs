@@ -27,7 +27,8 @@ namespace ServerClientGame.Networking
         public Client LocalClient;
         public GameTime lastGameTime;
         public double LastPing;
-        public Dictionary<string, string> Settings = new Dictionary<string, string>() { { "showping", "no" } };
+        public Dictionary<string, string> Settings = new Dictionary<string, string>() 
+            { { "showping", "no" }, {"showsuccess", "no" } };
 
         public ConcurrentDictionary<string, RemoteClient> Clients = new ConcurrentDictionary<string, RemoteClient>();
 
@@ -92,11 +93,11 @@ namespace ServerClientGame.Networking
             CommandResult result = command.Execute();
 
             if (result == CommandResult.Failed)
-                console.Output("Command Failed");
+                console.Output("*Command Failed*");
             else if (result == CommandResult.NotImplemented)
-                console.Output("Command Not Implemented");
-            else if (result == CommandResult.Success)
-                console.Output("Command Succeeded");
+                console.Output("*Command Not Implemented*");
+            else if (result == CommandResult.Success && Settings["showsuccess"] == "yes")
+                console.Output("*Command Succeeded*");
         }
 
         private void RespondToConsoleInput(string input)
