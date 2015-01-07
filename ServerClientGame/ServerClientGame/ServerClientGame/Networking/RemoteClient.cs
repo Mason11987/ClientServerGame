@@ -8,6 +8,7 @@ using ServerClientGame.Networking.Packets;
 using ProtoBuf;
 using System.Diagnostics;
 using System.IO;
+using ServerClientGame.Commands;
 
 
 namespace ServerClientGame.Networking
@@ -15,9 +16,9 @@ namespace ServerClientGame.Networking
     /// <summary>
     /// Represents a Remote Client for a Server.  
     /// RemoteClient sends out data from servers to a connected Client object on another machine.
-    /// RemoteClient accepts data sent from connected Client ojbect on another machine, interprets it, and routes it to server.
+    /// RemoteClient accepts data sent from connected Client object on another machine, interprets it, and routes it to server.
     /// </summary>
-    class RemoteClient
+    public class RemoteClient
     {
         private TcpClient Connection;
         private Thread CommThread;
@@ -33,7 +34,6 @@ namespace ServerClientGame.Networking
 
         public RemoteClient(string name, TcpClient connection, Server server)
         {
-            // TODO: Complete member initialization
             Connection = connection;
             CommThread = new Thread(new ParameterizedThreadStart(HandleClientCommunication));
             this.server = server;
@@ -70,9 +70,10 @@ namespace ServerClientGame.Networking
                 p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
 
                 lastClientPing = server.lastGameTime.TotalGameTime.TotalSeconds;
-//#if DEBUG
-//                server.console.Output(Name + " Ping");
-//#endif
+                
+                if (server.Settings["showping"] == "yes")
+                    server.console.Output(Name + " Ping");
+
                 if (p is PacketConsoleCommand)
                     HandleClientCommand((p as PacketConsoleCommand).CommandType, (p as PacketConsoleCommand).Arguments);
 
@@ -101,7 +102,7 @@ namespace ServerClientGame.Networking
                     Close();
                     break;
                 case ConsoleCommandType.Identify:
-                    server.OnClientIdentifiedCommand(this, args[0]);
+                    server.ExecuteCommand(new IdentifyCommand().MakeCommand(args, this));
                     break;
                 case ConsoleCommandType.Text:
                     server.OnClientTextCommand(this, args[0]);

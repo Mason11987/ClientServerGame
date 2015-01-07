@@ -16,7 +16,7 @@ namespace ServerClientGame
         {
             Game = GameFromArgs(args);
 
-
+            
             using (Game)
                 Game.Run();
 

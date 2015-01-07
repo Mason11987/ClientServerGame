@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using ServerClientGame.Commands;
 
 namespace ServerClientGame.Networking.Packets
 {

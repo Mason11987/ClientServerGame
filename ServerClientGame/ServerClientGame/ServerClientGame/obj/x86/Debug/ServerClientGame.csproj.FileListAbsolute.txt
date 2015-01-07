@@ -1,6 +1,5 @@
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\ServerClientGame.exe
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\ServerClientGame.pdb
-C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.exe
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.pdb

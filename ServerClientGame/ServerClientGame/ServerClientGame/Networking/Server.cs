@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using ServerClientGame.Networking.Packets;
 using System.Collections.Concurrent;
+using ServerClientGame.Commands;
 
 
 namespace ServerClientGame.Networking
@@ -20,14 +21,15 @@ namespace ServerClientGame.Networking
     {
         public static int PingRate = 2;
 
-        private TcpListener tcpListener;
-        private Thread listenThread;
+        public TcpListener tcpListener;
+        public Thread listenThread;
         internal CustomConsole console;
         public Client LocalClient;
         public GameTime lastGameTime;
         public double LastPing;
+        public Dictionary<string, string> Settings = new Dictionary<string, string>() { { "showping", "no" } };
 
-        private ConcurrentDictionary<string, RemoteClient> Clients = new ConcurrentDictionary<string, RemoteClient>();
+        public ConcurrentDictionary<string, RemoteClient> Clients = new ConcurrentDictionary<string, RemoteClient>();
 
         public string LocalIP { get { return tcpListener.LocalEndpoint.ToString().Split(':')[1]; } }
         public int Port { get; private set; }
@@ -39,7 +41,8 @@ namespace ServerClientGame.Networking
             : base(game)
         {
             Port = port;
-            console = new CustomConsole(game);
+            console = new CustomConsole(game, this);
+            Command.console = console;
             game.Components.Add(console);
         }
 
@@ -74,13 +77,31 @@ namespace ServerClientGame.Networking
 
             console.Enabled = Alive;
             if (console.hasInput)
-                RespondToConsoleCommand(console.ReadInput());
+                RespondToConsoleInput(console.ReadInput());
+
             if (gameTime.TotalGameTime.TotalSeconds - LastPing > Server.PingRate)
             {
                 LastPing = gameTime.TotalGameTime.TotalSeconds;
                 Broadcast(new PacketPing());
             }
 
+        }
+
+        public void ExecuteCommand(Command command)
+        {
+            CommandResult result = command.Execute();
+
+            if (result == CommandResult.Failed)
+                console.Output("Command Failed");
+            else if (result == CommandResult.NotImplemented)
+                console.Output("Command Not Implemented");
+            else if (result == CommandResult.Success)
+                console.Output("Command Succeeded");
+        }
+
+        private void RespondToConsoleInput(string input)
+        {
+            ExecuteCommand(console.GetCommand(input));
         }
 
         private void ListenForClients()
@@ -112,7 +133,7 @@ namespace ServerClientGame.Networking
         /// <summary>
         /// Send a packet to all current clients
         /// </summary>
-        private void Broadcast(Packet packet, RemoteClient ignoreClient = null)
+        public void Broadcast(Packet packet, RemoteClient ignoreClient = null)
         {
             foreach (var client in Clients.Values)
             {
@@ -121,62 +142,8 @@ namespace ServerClientGame.Networking
             }
         }
 
-        /// <summary>
-        /// Execute commands inputed into the console
-        /// </summary>
-        public void RespondToConsoleCommand(string input)
-        {
-            string[] args;
-            ConsoleCommandType commandType = CustomConsole.GetCommandArgsFromString(input, out args);
-
-            switch (commandType)
-            {
-                case ConsoleCommandType.Text:
-                    Broadcast(new PacketConsoleCommand(commandType, new [] {"SERVER", args[0]}));
-                    break;
-                case ConsoleCommandType.Identify:
-                    if (LocalClient != null)
-                        LocalClient.Send(new PacketConsoleCommand(commandType, args));
-                    break;
-                case ConsoleCommandType.Exit:
-                    console.Output("Exiting");
-                    Broadcast(new PacketConsoleCommand(ConsoleCommandType.Disconnect));
-
-                    Alive = false;
-                    foreach (var client in Clients.Values)
-                        client.Close();
-                    tcpListener.Stop();
-                    listenThread.Abort();
-                    Game.Exit();
-                    break;
-                case ConsoleCommandType.Clients:
-                    console.Output("List of Clients");
-                    console.Output(GetClientDisplayList());
-                    break;
-                case ConsoleCommandType.Say:
-                    if (args.Length >= 2)
-                    {
-                        args = new string[] { args[0], string.Join(" ", args).Substring(args[0].Length + 1) };
-                        LocalClient.Send(new PacketConsoleCommand(commandType, args));
-                    }
-                    else
-                        console.Output("Usage: /say Name Message");
-                    break;
-                case ConsoleCommandType.Disconnect: //Server can't input Disconnect Command
-                case ConsoleCommandType.Unknown:
-                default:
-                        console.Output("Commands: ");
-                        console.Output("/identify name - Identify local client as name");
-                        console.Output("/say NAME message  - whisper message to NAME from local client");
-                        console.Output("/clients - Lists all clients ");
-                        console.Output("/exit - Ends the application ");
-                        console.Output("/help - Displays this message ");
-                    break;
-            }
-        }
-
         #region Helper Functions
-        private string GetClientDisplayList()
+        public string GetClientDisplayList()
         {
             StringBuilder list = new StringBuilder();
             foreach (var client in Clients)
@@ -226,35 +193,6 @@ namespace ServerClientGame.Networking
             }
             Broadcast(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", " * " + remoteClient.Name + " Disconnected *" }));
             
-        }
-
-        internal void OnClientIdentifiedCommand(RemoteClient remoteClient, string newName)
-        {
-            if (Clients.ContainsKey(newName))
-            {
-                console.Output("Failed to update identifation of " + remoteClient.IP);
-                remoteClient.Send(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", "Identify Failed: A user already exists with the name: " + newName}));
-                return;
-            }
-
-            RemoteClient outRemoteClient;
-            if (Clients.TryRemove(remoteClient.Name, out outRemoteClient))
-            {
-
-                string oldName = remoteClient.Name;
-                remoteClient.Name = newName;
-                Clients.TryAdd(remoteClient.Name, remoteClient);
-
-                console.Output("Client " + remoteClient.IP + " - Identified as " + newName);
-                Broadcast(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", " * " + oldName + " identified as " + remoteClient.Name + " *" }));
-
-
-            }
-            else
-            {
-
-                console.Output("Failed to update identifation of " + remoteClient.IP);
-            }
         }
 
         internal void OnClientTextCommand(RemoteClient remoteClient, string text)
