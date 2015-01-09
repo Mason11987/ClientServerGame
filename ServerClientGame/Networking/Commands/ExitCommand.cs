@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking.Packets;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class ExitCommand : Command, ICommandFactory
     {
@@ -13,7 +13,7 @@ namespace ServerClientGame.Commands
         {
             if (Server == null)
             {
-                console.Output("Exiting");
+                Console.Output("Exiting");
                 if (Client.commThread != null)
                 {
                     Client.commThread.Abort();
@@ -24,7 +24,7 @@ namespace ServerClientGame.Commands
             }
             else
             {
-                console.Output("Exiting");
+                Console.Output("Exiting");
                 Server.Broadcast(new PacketConsoleCommand(ConsoleCommandType.Disconnect));
 
                 Server.Alive = false;

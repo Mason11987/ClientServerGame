@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Commands;
+using Networking.Commands;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class CommandParser
     {

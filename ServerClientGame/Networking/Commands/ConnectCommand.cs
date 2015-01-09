@@ -5,8 +5,9 @@ using System.Text;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
+using Networking.Networking;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class ConnectCommand : Command, ICommandFactory
     {
@@ -22,7 +23,7 @@ namespace ServerClientGame.Commands
         {
             if (Client.tcpClient.Connected)
             {
-                console.Output("Already connected to server.  Disconnect first");
+                Console.Output("Already connected to server.  Disconnect first");
                 return CommandResult.Failed;
             }
 
@@ -37,9 +38,9 @@ namespace ServerClientGame.Commands
                 Client.commThread = new Thread(new ParameterizedThreadStart(Client.HandleServerComm));
                 Client.commThread.Start(Client.tcpClient);
                 if (!Client.hasLocalServer)
-                    console.Output("Connected to server at: " + ip + ":" + port);
+                    Console.Output("Connected to server at: " + ip + ":" + port);
                 else
-                    Client.GameRef.Server.LocalClient = Client;
+                    NetworkManager.Server.LocalClient = Client;
                 
                 return CommandResult.Success;
             }
@@ -49,7 +50,7 @@ namespace ServerClientGame.Commands
                     e is SocketException)
                 {
                     if (!Client.hasLocalServer)
-                        console.Output("Couldn't Connect to server at: " + ip + ":" + port);
+                        Console.Output("Couldn't Connect to server at: " + ip + ":" + port);
                     return CommandResult.Failed;
                 }
                 else if (e is InvalidOperationException)

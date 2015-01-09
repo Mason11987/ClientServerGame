@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class SettingsCommand : Command, ICommandFactory
     {
@@ -28,9 +28,9 @@ namespace ServerClientGame.Commands
 
             if (Display)
             {
-                console.Output("Settings");
+                Console.Output("Settings");
                 foreach (var setting in settings)
-                    console.Output(string.Format("  {0} - {1}", setting.Key, setting.Value));
+                    Console.Output(string.Format("  {0} - {1}", setting.Key, setting.Value));
                 return CommandResult.Success;
             }
 

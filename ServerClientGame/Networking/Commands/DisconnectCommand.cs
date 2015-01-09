@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking;
+using Networking.Networking.Packets;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class DisconnectCommand : Command, ICommandFactory
     {
@@ -15,14 +15,14 @@ namespace ServerClientGame.Commands
             if (Client.tcpClient.Connected)
                 return DisconnectFromServer();
             
-            console.Output("Not Connected to Server");
+            Console.Output("Not Connected to Server");
 
             return CommandResult.Success;
         }
 
         public CommandResult DisconnectFromServer()
         {
-            console.Output("Disconnected From Server");
+            Console.Output("Disconnected From Server");
             if (Client.hasLocalServer)
             {
                 Client.commThread.Abort();

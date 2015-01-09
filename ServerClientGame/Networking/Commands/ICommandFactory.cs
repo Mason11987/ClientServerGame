@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking;
+using Networking.Networking;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     public interface ICommandFactory
     {

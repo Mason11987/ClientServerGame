@@ -14,8 +14,7 @@ namespace ServerClientGame
 
         static void Main(string[] args)
         {
-            Game = GameFromArgs(args);
-
+            Game = Game1.MakeGame(args);
             
             using (Game)
                 Game.Run();
@@ -24,56 +23,7 @@ namespace ServerClientGame
             if (OtherProcess != null && System.Diagnostics.Debugger.IsAttached && !OtherProcess.HasExited)
                 OtherProcess.Kill();
 #endif
-
             Game.Exit();
-        }
-
-        private static Game1 GameFromArgs(string[] args)
-        {
-            string input = "";
-            if (args.Contains("server"))
-            {
-                bool startsecondprocess = false;
-                int port = 3000;
-                input = "y";
-                Console.WriteLine("Running as Server");
-
-                if (args.Length >= 2)
-                    port = Convert.ToInt32(args[1]);
-
-#if DEBUG
-                if (args.Length >= 3)
-                    startsecondprocess = Convert.ToBoolean(args[2]);
-                if (startsecondprocess)
-                    Program.StartSecondProcess();
-#endif
-
-                return new Game1(true, port, startsecondprocess);
-            }
-            else if (args.Count() == 1 && args[0] == "client")
-            {
-                input = "n";
-                Console.WriteLine("Running as Client");
-                return new Game1();
-            }
-            else
-            {
-                Console.Write("Server? ");
-
-                input = Console.ReadLine();
-                if (input.ToLower().Contains("y"))
-                    return new Game1(true, 3000, false);
-                else
-                    return new Game1();
-            }
-
-
-        }
-
-        static void RunConsole()
-        {
-            
-
         }
 
 #if DEBUG

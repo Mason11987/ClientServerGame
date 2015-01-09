@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking.Packets;
 using ProtoBuf;
 using System.Diagnostics;
 using System.IO;
-using ServerClientGame.Commands;
+using Networking.Commands;
 
 
-namespace ServerClientGame.Networking
+namespace Networking
 {
     /// <summary>
     /// Represents a Remote Client for a Server.  
@@ -20,23 +20,24 @@ namespace ServerClientGame.Networking
     /// </summary>
     public class RemoteClient
     {
+        public Server Server { get { return NetworkManager.Server; } }
+
         private TcpClient Connection;
         private Thread CommThread;
         NetworkStream CommStream;
-        private Server server;
+
         public string Name { get; set; }
         public bool Connected { get { return Connection != null ? Connection.Connected : false; } }
 
         private double lastClientPing;
 
         public string IP { get { return Connection.Client.RemoteEndPoint.ToString(); } }
-        public bool RecentlyPinged { get { return server.lastGameTime.TotalGameTime.TotalSeconds - lastClientPing < (Server.PingRate * 2 + 1); } }
+        public bool RecentlyPinged { get { return Server.lastGameTime.TotalGameTime.TotalSeconds - lastClientPing < (Server.PingRate * 2 + 1); } }
 
         public RemoteClient(string name, TcpClient connection, Server server)
         {
             Connection = connection;
             CommThread = new Thread(new ParameterizedThreadStart(HandleClientCommunication));
-            this.server = server;
             Name = name;
 
             this.CommThread.Start(this);
@@ -48,7 +49,10 @@ namespace ServerClientGame.Networking
 
             RemoteClient commClient = (RemoteClient)sender;
             CommStream = commClient.Connection.GetStream();
-            lastClientPing = server.lastGameTime.TotalGameTime.TotalSeconds;
+            if (Server == null)
+                lastClientPing = 0;
+            else
+                lastClientPing = Server.lastGameTime.TotalGameTime.TotalSeconds;
 
             while (Connection.Connected && RecentlyPinged)
             {
@@ -56,7 +60,7 @@ namespace ServerClientGame.Networking
                     HandleClientData(CommStream);
             }
 
-            server.OnClientDisconnectedCommand(this, !Connection.Connected);
+            Server.OnClientDisconnectedCommand(this, !Connection.Connected);
 
             if (Connection.Connected)
                 Close();
@@ -70,10 +74,10 @@ namespace ServerClientGame.Networking
                 p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
 
 
-                lastClientPing = server.lastGameTime.TotalGameTime.TotalSeconds;
+                lastClientPing = Server.lastGameTime.TotalGameTime.TotalSeconds;
 
-                if (server.Settings["showping"] == "yes")
-                    server.console.Output(Name + " Ping " + Math.Round((lastClientPing - server.LastPing) * 1000) + "ms");
+                if (NetworkManager.Server.Settings["showping"] == "yes")
+                    NetworkManager.Console.Output(Name + " Ping " + Math.Round((lastClientPing - Server.LastPing) * 1000) + "ms");
 
                 if (p is PacketConsoleCommand)
                     HandleClientCommand((p as PacketConsoleCommand).CommandType, (p as PacketConsoleCommand).Arguments);
@@ -83,7 +87,7 @@ namespace ServerClientGame.Networking
             {
                 if (e is IOException || e is ArgumentException)
                 {
-                    server.OnClientDisconnectedCommand(this, !Connection.Connected);
+                    Server.OnClientDisconnectedCommand(this, !Connection.Connected);
 
                     if (Connection.Connected)
                         Close();
@@ -99,23 +103,23 @@ namespace ServerClientGame.Networking
             switch (commandType)
             {
                 case ConsoleCommandType.Disconnect:
-                    server.OnClientDisconnectedCommand(this, true);
+                    Server.OnClientDisconnectedCommand(this, true);
                     Close();
                     break;
                 case ConsoleCommandType.Identify:
-                    server.ExecuteCommand(new IdentifyCommand().MakeCommand(args, this));
+                    Server.ExecuteCommand(new IdentifyCommand().MakeCommand(args, this));
                     break;
                 case ConsoleCommandType.Text:
-                    server.OnClientTextCommand(this, args[0]);
+                    Server.OnClientTextCommand(this, args[0]);
                     break;
                 case ConsoleCommandType.Say:
-                    server.OnClientSay(this, args[0], args[1]);
+                    Server.OnClientSay(this, args[0], args[1]);
                     break;
                 case ConsoleCommandType.Clients:
-                    server.OnClientRequestClientList(this);
+                    Server.OnClientRequestClientList(this);
                     break;
                 default:
-                    server.OnClientUnexpectedCommand(this, commandType);
+                    Server.OnClientUnexpectedCommand(this, commandType);
                     break;
             }
 
@@ -132,7 +136,7 @@ namespace ServerClientGame.Networking
             {
                 if (e is IOException || e is ArgumentException)
                 {
-                    server.OnClientDisconnectedCommand(this, !Connection.Connected);
+                    Server.OnClientDisconnectedCommand(this, !Connection.Connected);
 
                     if (Connection.Connected)
                         Close();

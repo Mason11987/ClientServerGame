@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace ServerClientGame.Networking.Packets
+namespace Networking.Networking.Packets
 {
     public enum PacketType : byte 
     {

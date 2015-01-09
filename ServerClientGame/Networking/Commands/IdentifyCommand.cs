@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking.Packets;
-using ServerClientGame.Networking;
+using Networking.Networking.Packets;
+using Networking.Networking;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class IdentifyCommand : Command, ICommandFactory
     {
@@ -20,7 +20,7 @@ namespace ServerClientGame.Commands
             {
                 if (Server.Clients.ContainsKey(Name))
                 {
-                    console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
+                    Console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
                     RemoteClientToIdentify.Send(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", "Identify Failed: A user already exists with the name: " + Name }));
                     return CommandResult.Failed;
                 }
@@ -32,14 +32,14 @@ namespace ServerClientGame.Commands
                     RemoteClientToIdentify.Name = Name;
                     Server.Clients.TryAdd(RemoteClientToIdentify.Name, RemoteClientToIdentify);
 
-                    console.Output("Client " + RemoteClientToIdentify.IP + " - Identified as " + Name);
+                    Console.Output("Client " + RemoteClientToIdentify.IP + " - Identified as " + Name);
                     Server.Broadcast(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", " * " + oldName + " identified as " + RemoteClientToIdentify.Name + " *" }));
 
                     return CommandResult.Success;
                 }
                 else
                 {
-                    console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
+                    Console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
                     return CommandResult.Failed;
                 }
             }

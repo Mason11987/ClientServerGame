@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using ServerClientGame.Commands;
+using Networking.Commands;
 
-namespace ServerClientGame.Networking
+namespace Networking
 {
 
     public class CustomConsole : GameComponent
@@ -15,26 +15,11 @@ namespace ServerClientGame.Networking
         const int maxHistoryLength = 100;
         private int inputHistoryPosition;
 
-        public Client client;
-        public Server server;
-
         public CustomConsole(Game game)
             : base(game)
         {
             // TODO: Construct any child components here
-        }
-
-        public CustomConsole(Game game, Client client) 
-            : this(game)
-        {
-            this.client = client;
-        }
-
-        public CustomConsole(Game game, Server server) 
-            : this(game)
-        {
-            this.server = server;
-            this.client = server.LocalClient;
+            
         }
          
         /// <summary>
@@ -44,7 +29,6 @@ namespace ServerClientGame.Networking
         public override void Initialize()
         {
             currentinput = "";
-            
 
             base.Initialize();
         }
@@ -87,6 +71,7 @@ namespace ServerClientGame.Networking
 
                     if (currentinput.Length > 0)
                         currentinput = currentinput.Substring(0, currentinput.Length - 1);
+                    
                 }
                 else if (key.Key == ConsoleKey.Enter)
                 {
@@ -152,48 +137,8 @@ namespace ServerClientGame.Networking
 
         public Command GetCommand(string input)
         {
-            var parsar = new CommandParser(Command.GetAvailableCommands(server != null));
+            var parsar = new CommandParser(Command.AvailableCommands(NetworkManager.Server != null));
             return parsar.ParseCommand(input);
-        }
-
-
-        public ConsoleCommandType GetCommandArgsFromString(string input, out string[] args)
-        {
-            args = null;
-            if (input.StartsWith("/"))
-            {
-                var inSplit = input.Substring(1).Split(' ');
-                var command = inSplit[0];
-
-                args = input.Substring(1 + command.Length).Split(new [] {' '},StringSplitOptions.RemoveEmptyEntries);
-
-
-
-                switch (command)
-                {
-                    case "identify":
-                        return ConsoleCommandType.Identify;
-                    case "disconnect":
-                        return ConsoleCommandType.Disconnect;
-                    case "connect":
-                        return ConsoleCommandType.Connect;
-                    case "exit":
-                        return ConsoleCommandType.Exit;
-                    case "clients":
-                        return ConsoleCommandType.Clients;
-                    case "help":
-                        return ConsoleCommandType.Help;
-                    case "say":
-                        return ConsoleCommandType.Say;
-                    default:
-                        return ConsoleCommandType.Unknown;
-                }    
-            }
-            else
-            {
-                args = new[] { input };
-                return ConsoleCommandType.Text;
-            }
         }
     }
 }

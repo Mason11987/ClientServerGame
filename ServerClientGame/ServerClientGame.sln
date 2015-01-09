@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerClientGame", "ServerC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerClientGameContent", "ServerClientGame\ServerClientGameContent\ServerClientGameContent.contentproj", "{3C5D5369-3087-4422-BD07-96865705F3AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Networking.csproj", "{DC66DF5D-014D-43A2-B786-D1739176BE06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,16 @@ Global
 		{3C5D5369-3087-4422-BD07-96865705F3AA}.Release|Any CPU.ActiveCfg = Release|x86
 		{3C5D5369-3087-4422-BD07-96865705F3AA}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{3C5D5369-3087-4422-BD07-96865705F3AA}.Release|x86.ActiveCfg = Release|x86
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DC66DF5D-014D-43A2-B786-D1739176BE06}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

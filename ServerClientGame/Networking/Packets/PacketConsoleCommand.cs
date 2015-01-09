@@ -1,7 +1,7 @@
 ﻿using ProtoBuf;
-using ServerClientGame.Commands;
+using Networking.Commands;
 
-namespace ServerClientGame.Networking.Packets
+namespace Networking.Networking.Packets
 {
 
     [ProtoContract]

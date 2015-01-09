@@ -6,48 +6,38 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using ServerClientGame;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking.Packets;
 using ProtoBuf;
 using System.IO;
 using System.Diagnostics;
-using ServerClientGame.Commands;
+using Networking.Commands;
 
-namespace ServerClientGame.Networking
+namespace Networking
 {
     /// <summary>
     /// Accepts game data sent from remote Server object for remote Game and sends client data back.
     /// </summary>
     public class Client : GameComponent
     {
+        public Server Server { get { return NetworkManager.Server; } }
+        public CustomConsole Console { get { return NetworkManager.Console; }}
+        
+
         public TcpClient tcpClient;
-        private CustomConsole console;
-        public Game1 GameRef;
+
         public Thread commThread;
         public NetworkStream CommStream;
         public double lastServerPing;
         public GameTime lastGameTime;
         public Dictionary<string, string> Settings = new Dictionary<string, string>() { { "showping", "no" }, { "showsuccess", "no" } };
 
-        public bool hasLocalServer { get { return GameRef.Server != null; } }
+        public bool hasLocalServer { get { return Server != null; } }
 
         public bool Alive { get; set; }
         
-        public Client(Game1 game)
+        public Client(Game game)
             : base(game)
         {
-            GameRef = game;
-            if (!hasLocalServer)
-            {
-                console = new CustomConsole(game, this);
-                Command.console = console;
-                game.Components.Add(console);
-            }
-            else
-            {
-                GameRef.Server.console.client = this;
-                this.console = GameRef.Server.console;
-            }
                 
                 
         }
@@ -74,13 +64,13 @@ namespace ServerClientGame.Networking
         {
             lastGameTime = gameTime;
             if (hasLocalServer && !tcpClient.Connected)
-                Connect(GameRef.Server);
+                Connect(Server);
 
-            if (console != null)
+            if (Console != null)
             {
-                console.Enabled = Alive;
-                if (console.hasInput)
-                    RespondToConsoleInput(console.ReadInput());
+                Console.Enabled = Alive;
+                if (Console.hasInput)
+                    RespondToConsoleInput(Console.ReadInput());
             }
 
             base.Update(gameTime);
@@ -114,7 +104,7 @@ namespace ServerClientGame.Networking
             if (tcpClient.Connected)
             {
                 ExecuteCommand(new DisconnectCommand());
-                Console.WriteLine("Server Lost");
+                Console.Output("Server Lost");
             }
         }
 
@@ -130,9 +120,9 @@ namespace ServerClientGame.Networking
                 if (Settings["showping"] == "yes")
                 {
                     if (!hasLocalServer)
-                        console.Output("Server Ping");
+                        Console.Output("Server Ping");
                     else
-                        GameRef.Server.console.Output("Server Ping");
+                        Console.Output("Server Ping");
                 }
             }
             else if (p is PacketConsoleCommand)
@@ -148,17 +138,17 @@ namespace ServerClientGame.Networking
             {
                 case ConsoleCommandType.Text:
                     if (!hasLocalServer)
-                        console.Output(String.Format("{0}: {1}", args));
+                        Console.Output(String.Format("{0}: {1}", args));
                     break;
                 case ConsoleCommandType.Say:
                     if (!hasLocalServer)
-                        console.Output(string.Format("[{0}]: {1}", args[0], args[1]));
+                        Console.Output(string.Format("[{0}]: {1}", args[0], args[1]));
                     break;
                 case ConsoleCommandType.Disconnect:
                     ExecuteCommand(new DisconnectCommand());
                     break;
                 default:
-                    console.Output("Unexpected Command from Server: " + commandType.ToString());
+                    Console.Output("Unexpected Command from Server: " + commandType.ToString());
                     break;
             }
         }
@@ -178,7 +168,7 @@ namespace ServerClientGame.Networking
             }
             else
             {
-                console.Output("Not Connected to server");
+                Console.Output("Not Connected to server");
             }
            
         }
@@ -188,16 +178,16 @@ namespace ServerClientGame.Networking
             CommandResult result = command.Execute();
 
             if (result == CommandResult.Failed)
-                console.Output("*Command Failed*");
+                Console.Output("*Command Failed*");
             else if (result == CommandResult.NotImplemented)
-                console.Output("*Command Not Implemented*");
+                Console.Output("*Command Not Implemented*");
             else if (result == CommandResult.Success && Settings["showsuccess"] == "yes")
-                console.Output("*Command Succeeded*");
+                Console.Output("*Command Succeeded*");
         }
 
         private void RespondToConsoleInput(string input)
         {
-            ExecuteCommand(console.GetCommand(input));
+            ExecuteCommand(Console.GetCommand(input));
         }
     }
 }

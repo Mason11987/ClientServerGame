@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Networking.Networking;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     public class HelpCommand : Command, ICommandFactory
     {
         public override CommandResult Execute()
         {
-            console.Output("Commands:");
-            foreach (var command in Command.GetAvailableCommands(console.server != null))
-                console.Output(string.Format("  {0}", command.Description));
+            Console.Output("Commands:");
+            foreach (var command in Command.AvailableCommands(NetworkManager.Server != null))
+                Console.Output(string.Format("  {0}", command.Description));
             return CommandResult.Success;
         }
 

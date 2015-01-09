@@ -93,9 +93,6 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\..\..\..\..\..\..\..\Users\cmaso1\Downloads\protobuf-net r668\Full\net30\protobuf-net.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -113,29 +110,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ClientsCommand.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\ConnectCommand.cs" />
-    <Compile Include="Commands\DisconnectCommand.cs" />
-    <Compile Include="Commands\ErrorCommand.cs" />
-    <Compile Include="Commands\ExitCommand.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\ICommandFactory.cs" />
-    <Compile Include="Commands\IdentifyCommand.cs" />
-    <Compile Include="Commands\NotFoundCommand.cs" />
-    <Compile Include="Commands\SayCommand.cs" />
-    <Compile Include="Commands\SettingsCommand.cs" />
-    <Compile Include="Commands\TextCommand.cs" />
-    <Compile Include="Commands\UnexpectedCommandArgumentException.cs" />
-    <Compile Include="Networking\Client.cs" />
-    <Compile Include="Commands\CommandParser.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Networking\CustomConsole.cs" />
-    <Compile Include="Networking\Packets\PacketConsoleCommand.cs" />
-    <Compile Include="Networking\Packets\PacketPing.cs" />
-    <Compile Include="Networking\Packets\Packet.cs" />
-    <Compile Include="Networking\RemoteClient.cs" />
-    <Compile Include="Networking\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
@@ -145,6 +119,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Networking\Networking.csproj">
+      <Project>{DC66DF5D-014D-43A2-B786-D1739176BE06}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServerClientGameContent\ServerClientGameContent.contentproj">
       <Name>ServerClientGameContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking.Packets;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class ClientsCommand : Command, ICommandFactory
     {
@@ -15,8 +15,8 @@ namespace ServerClientGame.Commands
                 Client.Send(new PacketConsoleCommand(CommandType, new string[] {}));
             else
             {
-                console.Output("List of Clients");
-                console.Output(Server.GetClientDisplayList());
+                Console.Output("List of Clients");
+                Console.Output(Server.GetClientDisplayList());
             }
             return CommandResult.Success;
         }

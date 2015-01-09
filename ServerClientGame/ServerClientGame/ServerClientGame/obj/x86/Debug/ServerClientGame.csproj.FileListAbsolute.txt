@@ -12,3 +12,6 @@ D:\Documents\SkyDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\Se
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\protobuf-net.dll
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\protobuf-net.pdb
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\protobuf-net.xml
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.csprojResolveAssemblyReference.cache
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.dll
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.pdb

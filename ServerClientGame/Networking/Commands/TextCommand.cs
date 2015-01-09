@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServerClientGame.Networking.Packets;
+using Networking.Networking.Packets;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class TextCommand : Command, ICommandFactory
     {

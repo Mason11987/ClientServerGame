@@ -1,29 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using System.Net.Sockets;
-using System.Threading;
-using System.Text;
-using System.Net;
-using System.IO;
-using ServerClientGame.Networking.Packets;
 using System.Collections.Concurrent;
-using ServerClientGame.Commands;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using Microsoft.Xna.Framework;
+using Networking.Commands;
+using Networking.Networking.Packets;
 
-
-namespace ServerClientGame.Networking
+namespace Networking
 {
     /// <summary>
     /// Routes Game Data as necessary through RemoteClient to Client on remote machine.
     /// </summary>
     public class Server : GameComponent
     {
+        public CustomConsole Console { get { return NetworkManager.Console; }}
+
         public static int PingRate = 2;
 
         public TcpListener tcpListener;
         public Thread listenThread;
-        internal CustomConsole console;
         public Client LocalClient;
         public GameTime lastGameTime;
         public double LastPing;
@@ -42,9 +40,6 @@ namespace ServerClientGame.Networking
             : base(game)
         {
             Port = port;
-            console = new CustomConsole(game, this);
-            Command.console = console;
-            game.Components.Add(console);
         }
 
         /// <summary>
@@ -60,7 +55,7 @@ namespace ServerClientGame.Networking
             this.listenThread.Start();
 
             PublicIP = GetPublicIpAddress();
-            console.Output("Public IP: " + GetPublicIpAddress() + ":" + Port);
+            Console.Output("Public IP: " + GetPublicIpAddress() + ":" + Port);
 
 
             base.Initialize();
@@ -76,9 +71,9 @@ namespace ServerClientGame.Networking
 
             base.Update(gameTime);
 
-            console.Enabled = Alive;
-            if (console.hasInput)
-                RespondToConsoleInput(console.ReadInput());
+            Console.Enabled = Alive;
+            if (Console.hasInput)
+                RespondToConsoleInput(Console.ReadInput());
 
             if (gameTime.TotalGameTime.TotalSeconds - LastPing > Server.PingRate)
             {
@@ -93,16 +88,16 @@ namespace ServerClientGame.Networking
             CommandResult result = command.Execute();
 
             if (result == CommandResult.Failed)
-                console.Output("*Command Failed*");
+                Console.Output("*Command Failed*");
             else if (result == CommandResult.NotImplemented)
-                console.Output("*Command Not Implemented*");
+                Console.Output("*Command Not Implemented*");
             else if (result == CommandResult.Success && Settings["showsuccess"] == "yes")
-                console.Output("*Command Succeeded*");
+                Console.Output("*Command Succeeded*");
         }
 
         private void RespondToConsoleInput(string input)
         {
-            ExecuteCommand(console.GetCommand(input));
+            ExecuteCommand(Console.GetCommand(input));
         }
 
         private void ListenForClients()
@@ -121,7 +116,7 @@ namespace ServerClientGame.Networking
                     string name = "Client" + (Clients.Count + 1);
                     RemoteClient newClient = new RemoteClient(name, connection, this);
                     Clients.TryAdd(name, newClient);
-                    console.Output("Client Connected: " + newClient.IP);
+                    Console.Output("Client Connected: " + newClient.IP);
                     Broadcast(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", " * " + newClient.Name + " Connected *" }), newClient);
                 }
                 catch (SocketException)
@@ -178,9 +173,9 @@ namespace ServerClientGame.Networking
         internal void OnClientDisconnectedCommand(RemoteClient remoteClient, bool acknowledged)
         {
             if (acknowledged)
-                console.Output(remoteClient.Name + " Disconnected");
+                Console.Output(remoteClient.Name + " Disconnected");
             else
-                console.Output(remoteClient.Name + " Lost");
+                Console.Output(remoteClient.Name + " Lost");
 
             RemoteClient outRemoteClient;
             if (!Clients.TryRemove(remoteClient.Name, out outRemoteClient))
@@ -198,14 +193,14 @@ namespace ServerClientGame.Networking
 
         internal void OnClientTextCommand(RemoteClient remoteClient, string text)
         {
-            console.Output(remoteClient.Name + ": " + text);
+            Console.Output(remoteClient.Name + ": " + text);
 
             Broadcast(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { remoteClient.Name, text }));
         }
 
         internal void OnClientUnexpectedCommand(RemoteClient remoteClient, ConsoleCommandType commandType)
         {
-            console.Output(String.Format("Unexpected Command from Client ({0}): {1}", remoteClient.Name, commandType.ToString()));
+            Console.Output(String.Format("Unexpected Command from Client ({0}): {1}", remoteClient.Name, commandType.ToString()));
         }
 
         internal void OnClientSay(RemoteClient remoteClient, string Target, string Text)
@@ -214,12 +209,12 @@ namespace ServerClientGame.Networking
             {
                 if (client.Name == Target)
                 {
-                    console.Output(String.Format("{0} to {1}: {2}", remoteClient.Name, client.Name, Text));
+                    Console.Output(String.Format("{0} to {1}: {2}", remoteClient.Name, client.Name, Text));
                     client.Send(new PacketConsoleCommand(ConsoleCommandType.Say, new [] {remoteClient.Name, Text }));
                     return;
                 }
             }
-            console.Output(String.Format("{0} failed say to {1}: {2}", remoteClient.Name, Target, Text));
+            Console.Output(String.Format("{0} failed say to {1}: {2}", remoteClient.Name, Target, Text));
             remoteClient.Send(new PacketConsoleCommand(ConsoleCommandType.Text, new[] { "Server", string.Format("Say Failed. {0} is not connected.", Target) }));
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ServerClientGame.Commands
+namespace Networking.Commands
 {
     class ErrorCommand : Command
     {
@@ -12,7 +12,7 @@ namespace ServerClientGame.Commands
 
         public override CommandResult Execute()
         {
-            console.Output(Exception.Message);
+            Console.Output(Exception.Message);
             return CommandResult.Success;
         }
     }
