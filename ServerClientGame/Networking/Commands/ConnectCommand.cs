@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
-using Networking.Networking;
 
 namespace Networking.Commands
 {
@@ -27,7 +24,7 @@ namespace Networking.Commands
                 return CommandResult.Failed;
             }
 
-            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            var serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
 
             try
             {
@@ -35,7 +32,7 @@ namespace Networking.Commands
                 Client.tcpClient.Connect(serverEndPoint);
 
                 Client.lastServerPing = Client.lastGameTime.TotalGameTime.TotalSeconds;
-                Client.commThread = new Thread(new ParameterizedThreadStart(Client.HandleServerComm));
+                Client.commThread = new Thread(client => Client.HandleServerComm());
                 Client.commThread.Start(Client.tcpClient);
                 if (!Client.hasLocalServer)
                     Console.Output("Connected to server at: " + ip + ":" + port);
@@ -53,13 +50,12 @@ namespace Networking.Commands
                         Console.Output("Couldn't Connect to server at: " + ip + ":" + port);
                     return CommandResult.Failed;
                 }
-                else if (e is InvalidOperationException)
+                if (e is InvalidOperationException)
                 {
 
                     throw;
                 }
-                else
-                    throw;
+                throw;
             }
         }
 
@@ -72,24 +68,25 @@ namespace Networking.Commands
         {
             if (args.Length > 3) throw new UnexpectedCommandArgumentException("Connect command failed, supply ip and port only");
 
-		    string ip = "127.0.0.1";
-            int port = 3000;
+		    var ip = "127.0.0.1";
+            var port = 3000;
             try 
 	        {
-                if (args.Length == 2)
+                switch (args.Length)
                 {
-                    if (args[1].Contains(':'))
-                    {
-                        ip = args[1].Split(':')[0];
-                        port = int.Parse(args[1].Split(':')[1]);
-                    }
-                    else
+                    case 2:
+                        if (args[1].Contains(':'))
+                        {
+                            ip = args[1].Split(':')[0];
+                            port = int.Parse(args[1].Split(':')[1]);
+                        }
+                        else
+                            ip = args[1];
+                        break;
+                    case 3:
                         ip = args[1];
-                }
-                else if (args.Length == 3)
-                {
-                    ip = args[1];
-                    port = int.Parse(args[2]);
+                        port = int.Parse(args[2]);
+                        break;
                 }
 	        }
 	        catch (Exception)
@@ -97,7 +94,7 @@ namespace Networking.Commands
                 throw new UnexpectedCommandArgumentException("Connect command failed, could not parse ip and port");
 	        }
 
-            return new ConnectCommand() {IP = ip, Port = port};
+            return new ConnectCommand {IP = ip, Port = port};
         }
     }
 }

@@ -15,3 +15,12 @@ C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClient
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.csprojResolveAssemblyReference.cache
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.dll
 C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.pdb
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.csprojResolveAssemblyReference.cache
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.exe
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\obj\x86\Debug\ServerClientGame.pdb
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\ServerClientGame.exe
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\ServerClientGame.pdb
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.dll
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\protobuf-net.dll
+D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.pdb

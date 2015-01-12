@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace Networking.Networking.Packets
+namespace Networking.Packets
 {
     public enum PacketType : byte 
     {
@@ -17,11 +17,6 @@ namespace Networking.Networking.Packets
         [ProtoMember(1)]
         public PacketType Type { get; set; }
 
-
-        public Packet()
-        {
-
-        }
 
         //public Packet(PacketType packetType, byte[] data)
         //{

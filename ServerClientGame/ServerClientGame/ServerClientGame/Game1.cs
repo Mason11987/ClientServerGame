@@ -10,7 +10,7 @@ namespace ServerClientGame
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -18,7 +18,7 @@ namespace ServerClientGame
 
         internal static Game1 MakeGame(string[] args)
         {
-            string input = "";
+            var input = "";
             if (!args.Contains("server") && !args.Contains("client"))
             {
                 Console.Write("Server? ");
@@ -26,25 +26,20 @@ namespace ServerClientGame
                 input = Console.ReadLine();
             }
 
-            if (args.Contains("server") || input == "y")
-            {
-                int port = 3000;
-                if (args.Length >= 2)
-                    port = Convert.ToInt32(args[1]);
+            if (!args.Contains("server") && input != "y") 
+                return new Game1();
+
+            var port = 3000;
+            if (args.Length >= 2)
+                port = Convert.ToInt32(args[1]);
 
 #if DEBUG
-                if (args.Length >= 3 && args[2].ToLower() == bool.TrueString.ToLower())
-                    Program.StartSecondProcess();
+            if (args.Length >= 3 && args[2].ToLower() == bool.TrueString.ToLower())
+                Program.StartSecondProcess();
                 
 #endif
 
-                return new Game1(port);
-            }
-            else
-            {
-                return new Game1();
-            }
-
+            return new Game1(port);
         }
 
 
@@ -53,8 +48,8 @@ namespace ServerClientGame
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            this.Window.Title = Name + " Client";
-            Console.Title = this.Window.Title;
+            Window.Title = Name + " Client";
+            Console.Title = Window.Title;
 
             NetworkManager.Game = this;
             NetworkManager.Console = new CustomConsole(this);
@@ -69,8 +64,8 @@ namespace ServerClientGame
             NetworkManager.Server = new Server(this, port);
             Components.Add(NetworkManager.Server);
 
-            this.Window.Title = Name + " Server";
-            Console.Title = this.Window.Title;
+            Window.Title = Name + " Server";
+            Console.Title = Window.Title;
         }
 
         /// <summary>
@@ -116,11 +111,11 @@ namespace ServerClientGame
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+                Exit();
 
             if ((NetworkManager.Server != null && !NetworkManager.Server.Alive) ||
                 (NetworkManager.Client != null && !NetworkManager.Client.Alive))
-                this.Exit();
+                Exit();
             // TODO: Add your update logic here
 
             base.Update(gameTime);

@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
-using System.Net;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using Networking.Networking.Packets;
-using ProtoBuf;
 using System.IO;
-using System.Diagnostics;
 using Networking.Commands;
+using Networking.Packets;
+using ProtoBuf;
 
 namespace Networking
 {
@@ -29,7 +25,7 @@ namespace Networking
         public NetworkStream CommStream;
         public double lastServerPing;
         public GameTime lastGameTime;
-        public Dictionary<string, string> Settings = new Dictionary<string, string>() { { "showping", "no" }, { "showsuccess", "no" } };
+        public Dictionary<string, string> Settings = new Dictionary<string, string> { { "showping", "no" }, { "showsuccess", "no" } };
 
         public bool hasLocalServer { get { return Server != null; } }
 
@@ -78,12 +74,11 @@ namespace Networking
 
         public void Connect(Server server)
         {
-            ExecuteCommand(new ConnectCommand() { IP = "127.0.0.1", Port = server.Port });
+            ExecuteCommand(new ConnectCommand { IP = "127.0.0.1", Port = server.Port });
         }
 
-        public void HandleServerComm(object client)
+        public void HandleServerComm()
         {
-            TcpClient tcpClient = (TcpClient)client;
 
             CommStream = tcpClient.GetStream();
 
@@ -101,33 +96,30 @@ namespace Networking
 
             }
 
-            if (tcpClient.Connected)
-            {
-                ExecuteCommand(new DisconnectCommand());
-                Console.Output("Server Lost");
-            }
+            if (!tcpClient.Connected) 
+                return;
+            ExecuteCommand(new DisconnectCommand());
+            Console.Output("Server Lost");
         }
 
         private void HandleServerData()
         {
-            Packet p;
-            p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
+            var p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
 
             lastServerPing = lastGameTime.TotalGameTime.TotalSeconds;
             if (p is PacketPing)
             {
                 Send(new PacketPing()); //Return Ping
-                if (Settings["showping"] == "yes")
-                {
-                    if (!hasLocalServer)
-                        Console.Output("Server Ping");
-                    else
-                        Console.Output("Server Ping");
-                }
+                if (Settings["showping"] != "yes") 
+                    return;
+                if (!hasLocalServer)
+                    Console.Output("Server Ping");
+                else
+                    Console.Output("Server Ping");
             }
             else if (p is PacketConsoleCommand)
             {
-                PacketConsoleCommand packet = p as PacketConsoleCommand;
+                var packet = p as PacketConsoleCommand;
                 HandleServerCommand(packet.CommandType, packet.Arguments);
             }
         }
@@ -138,7 +130,7 @@ namespace Networking
             {
                 case ConsoleCommandType.Text:
                     if (!hasLocalServer)
-                        Console.Output(String.Format("{0}: {1}", args));
+                        Console.Output(String.Format("{0}: {1}", args[0], args[1]));
                     break;
                 case ConsoleCommandType.Say:
                     if (!hasLocalServer)
@@ -148,7 +140,7 @@ namespace Networking
                     ExecuteCommand(new DisconnectCommand());
                     break;
                 default:
-                    Console.Output("Unexpected Command from Server: " + commandType.ToString());
+                    Console.Output("Unexpected Command from Server: " + commandType);
                     break;
             }
         }
@@ -175,7 +167,7 @@ namespace Networking
 
         public void ExecuteCommand(Command command)
         {
-            CommandResult result = command.Execute();
+            var result = command.Execute();
 
             if (result == CommandResult.Failed)
                 Console.Output("*Command Failed*");

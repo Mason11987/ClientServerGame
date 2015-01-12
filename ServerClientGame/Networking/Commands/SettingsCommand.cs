@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Networking.Commands
 {
@@ -19,11 +17,7 @@ namespace Networking.Commands
             //else
             //    Server.LocalClient.Send(new PacketConsoleCommand(CommandType, args));
 
-            Dictionary<string, string> settings;
-            if (Server == null)
-                settings = Client.Settings;
-            else
-                settings = Server.Settings;
+            var settings = Server == null ? Client.Settings : Server.Settings;
             
 
             if (Display)
@@ -49,23 +43,17 @@ namespace Networking.Commands
         public Command MakeCommand(string[] args)
         {
             if (args.Length == 1)
-                return new SettingsCommand() { Display = true };
+                return new SettingsCommand { Display = true };
 
-            Dictionary<string, string> settings;
-            if (Server == null)
-                settings = Client.Settings;
-            else
-                settings = Server.Settings;
+            var settings = Server == null ? Client.Settings : Server.Settings;
 
             if (args.Length > 1)
                 if (!settings.ContainsKey(args[1])) throw new UnexpectedCommandArgumentException("Settings change failed, no setting named: " + args[1]);
-            if (args.Length == 2)
-            {
-                if (settings[args[1]] != "no" && settings[args[1]] != "yes") throw new UnexpectedCommandArgumentException("Settings change failed, setting is not a toggle: " + args[1]);
-                return new SettingsCommand() {Setting = args[1], Value = new string[] {settings[args[1]] == "yes" ? "no" : "yes"} };
-            }
-            else
-                return new SettingsCommand() { Setting = args[1], Value = args.Skip(2)};
+            if (args.Length != 2) 
+                return new SettingsCommand {Setting = args[1], Value = args.Skip(2)};
+            if (settings[args[1]] != "no" && settings[args[1]] != "yes") 
+                throw new UnexpectedCommandArgumentException("Settings change failed, setting is not a toggle: " + args[1]);
+            return new SettingsCommand {Setting = args[1], Value = new[] {settings[args[1]] == "yes" ? "no" : "yes"} };
         }
     }
 }

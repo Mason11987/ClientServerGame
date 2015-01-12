@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace Networking.Networking.Packets
+namespace Networking.Packets
 {
     [ProtoContract]
     public class PacketPing : Packet {

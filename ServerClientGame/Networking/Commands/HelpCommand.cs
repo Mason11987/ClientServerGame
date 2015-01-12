@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking;
-
-namespace Networking.Commands
+﻿namespace Networking.Commands
 {
     public class HelpCommand : Command, ICommandFactory
     {
         public override CommandResult Execute()
         {
             Console.Output("Commands:");
-            foreach (var command in Command.AvailableCommands(NetworkManager.Server != null))
+            foreach (var command in AvailableCommands(NetworkManager.Server != null))
                 Console.Output(string.Format("  {0}", command.Description));
             return CommandResult.Success;
         }

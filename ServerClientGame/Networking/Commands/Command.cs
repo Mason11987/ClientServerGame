@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Networking.Commands
@@ -27,8 +23,8 @@ namespace Networking.Commands
         public CustomConsole Console { get { return NetworkManager.Console; } }
         public Game Game { get { return NetworkManager.Game; } }
 
-        private static List<ICommandFactory> _availableServerCommands = 
-            new List<ICommandFactory>()
+        private static readonly List<ICommandFactory> _availableServerCommands = 
+            new List<ICommandFactory>
             {
                 new HelpCommand(),
                 new SayCommand(),
@@ -37,8 +33,8 @@ namespace Networking.Commands
                 new SettingsCommand(),
                 new ExitCommand()
             };
-        private static List<ICommandFactory> _availableClientCommands = 
-            new List<ICommandFactory>()
+        private static readonly List<ICommandFactory> _availableClientCommands = 
+            new List<ICommandFactory>
             {
                 new HelpCommand(),
                 new IdentifyCommand(),
@@ -66,11 +62,7 @@ namespace Networking.Commands
 
         internal static IEnumerable<ICommandFactory> AvailableCommands(bool isServer)
         {
-            if (isServer)
-                return _availableServerCommands;
-            else
-                return _availableClientCommands;
+            return isServer ? _availableServerCommands : _availableClientCommands;
         }
-
     }
 }

@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Diagnostics;
 
 namespace ServerClientGame
@@ -20,7 +17,7 @@ namespace ServerClientGame
                 Game.Run();
 
 #if DEBUG
-            if (OtherProcess != null && System.Diagnostics.Debugger.IsAttached && !OtherProcess.HasExited)
+            if (OtherProcess != null && Debugger.IsAttached && !OtherProcess.HasExited)
                 OtherProcess.Kill();
 #endif
             Game.Exit();
@@ -30,7 +27,7 @@ namespace ServerClientGame
         static Process OtherProcess;
         internal static void StartSecondProcess()
         {
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 Console.Title = "Debugging Window";
                 Console.WriteLine("Debugging");

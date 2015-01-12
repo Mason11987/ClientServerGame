@@ -11,7 +11,7 @@ namespace Networking
         public bool hasInput { get { return currentinput.EndsWith(Environment.NewLine); } }
         
         private string currentinput;
-        private List<string> inputHistory = new List<string>();
+        private readonly List<string> inputHistory = new List<string>();
         const int maxHistoryLength = 100;
         private int inputHistoryPosition;
 
@@ -63,45 +63,40 @@ namespace Networking
 
             if (Console.KeyAvailable && !hasInput)
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                var key = Console.ReadKey(true);
 
-                if (key.Key == ConsoleKey.Backspace)
+                switch (key.Key)
                 {
-                    DoBackspace();
-
-                    if (currentinput.Length > 0)
-                        currentinput = currentinput.Substring(0, currentinput.Length - 1);
-                    
-                }
-                else if (key.Key == ConsoleKey.Enter)
-                {
-                    Console.Write(Environment.NewLine);
-                    currentinput += Environment.NewLine;
-                }
-                else if (key.Key == ConsoleKey.UpArrow) 
-                {
-                    if (inputHistoryPosition < inputHistory.Count - 1)
-                        inputHistoryPosition++;
-
-                    DoBackspace(currentinput.Length);
-
-                    currentinput = inputHistory[inputHistoryPosition];
-                    Console.Write(currentinput);
-                }
-                else if (key.Key == ConsoleKey.DownArrow) 
-                {
-                    if (inputHistoryPosition > 0)
-                        inputHistoryPosition--;
-
-                    DoBackspace(currentinput.Length);
-
-                    currentinput = inputHistory[inputHistoryPosition];
-                    Console.Write(currentinput);
-                }
-                else if (key.KeyChar != '\0')
-                {
-                    Console.Write(key.KeyChar);
-                    currentinput += key.KeyChar;
+                    case ConsoleKey.Backspace:
+                        DoBackspace();
+                        if (currentinput.Length > 0)
+                            currentinput = currentinput.Substring(0, currentinput.Length - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        Console.Write(Environment.NewLine);
+                        currentinput += Environment.NewLine;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (inputHistoryPosition < inputHistory.Count - 1)
+                            inputHistoryPosition++;
+                        DoBackspace(currentinput.Length);
+                        currentinput = inputHistory[inputHistoryPosition];
+                        Console.Write(currentinput);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (inputHistoryPosition > 0)
+                            inputHistoryPosition--;
+                        DoBackspace(currentinput.Length);
+                        currentinput = inputHistory[inputHistoryPosition];
+                        Console.Write(currentinput);
+                        break;
+                    default:
+                        if (key.KeyChar != '\0')
+                        {
+                            Console.Write(key.KeyChar);
+                            currentinput += key.KeyChar;
+                        }
+                        break;
                 }
             }
 

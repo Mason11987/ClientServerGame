@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking.Packets;
-using Networking.Networking;
+﻿using Networking.Packets;
 
 namespace Networking.Commands
 {
@@ -15,7 +10,7 @@ namespace Networking.Commands
         public override CommandResult Execute()
         {
             if (Server == null)
-                Client.Send(new PacketConsoleCommand(CommandType, new string[] { Name }));
+                Client.Send(new PacketConsoleCommand(CommandType, new[] { Name }));
             else if (RemoteClientToIdentify != null)
             {
                 if (Server.Clients.ContainsKey(Name))
@@ -28,7 +23,7 @@ namespace Networking.Commands
                 RemoteClient outRemoteClient;
                 if (Server.Clients.TryRemove(RemoteClientToIdentify.Name, out outRemoteClient))
                 {
-                    string oldName = RemoteClientToIdentify.Name;
+                    var oldName = RemoteClientToIdentify.Name;
                     RemoteClientToIdentify.Name = Name;
                     Server.Clients.TryAdd(RemoteClientToIdentify.Name, RemoteClientToIdentify);
 
@@ -37,11 +32,8 @@ namespace Networking.Commands
 
                     return CommandResult.Success;
                 }
-                else
-                {
-                    Console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
-                    return CommandResult.Failed;
-                }
+                Console.Output("Failed to update identifation of " + RemoteClientToIdentify.IP);
+                return CommandResult.Failed;
             }
             else if (Server.LocalClient != null)
                 Server.LocalClient.Send(new PacketConsoleCommand(CommandType, Name));
@@ -58,12 +50,12 @@ namespace Networking.Commands
             if (args.Length > 2) throw new UnexpectedCommandArgumentException("Identify failed: Name contained spaces");
             if (args.Length == 1) throw new UnexpectedCommandArgumentException("Identify failed: No Name supplied");
 
-            return new IdentifyCommand() { Name = args[1]};
+            return new IdentifyCommand { Name = args[1]};
         }
 
         public Command MakeCommand(string[] args, RemoteClient remoteClient)
         {
-            Command command = MakeCommand(new string[] {CommandName.ToLower(), args[0]});
+            var command = MakeCommand(new[] {CommandName.ToLower(), args[0]});
 
             if (command is IdentifyCommand)
                 (command as IdentifyCommand).RemoteClientToIdentify = remoteClient;

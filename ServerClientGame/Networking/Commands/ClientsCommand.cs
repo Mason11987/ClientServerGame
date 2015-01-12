@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking.Packets;
+﻿using Networking.Packets;
 
 namespace Networking.Commands
 {
@@ -29,7 +25,7 @@ namespace Networking.Commands
         public Command MakeCommand(string[] args)
         {
 
-            return new ClientsCommand() { };
+            return new ClientsCommand();
         }
     }
 }

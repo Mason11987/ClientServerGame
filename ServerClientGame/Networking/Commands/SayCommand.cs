@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking.Packets;
+﻿using System.Linq;
+using Networking.Packets;
 
 namespace Networking.Commands
 {
@@ -13,7 +10,7 @@ namespace Networking.Commands
 
         public override CommandResult Execute()
         {
-            var args = new string[] { Name, string.Join(" ", Message) };
+            var args = new[] { Name, string.Join(" ", Message) };
             if (Server == null)
                 Client.Send(new PacketConsoleCommand(CommandType, args));
             else
@@ -31,7 +28,7 @@ namespace Networking.Commands
             if (args.Length < 3) throw new UnexpectedCommandArgumentException("Say failed: Say requires a Name and Message");
 
 
-            return new SayCommand() { Name = args[1], Message = string.Join(" ", (args.Skip(2))) };
+            return new SayCommand { Name = args[1], Message = string.Join(" ", (args.Skip(2))) };
         }
     }
 }

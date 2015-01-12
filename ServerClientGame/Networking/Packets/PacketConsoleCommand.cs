@@ -1,7 +1,7 @@
-﻿using ProtoBuf;
-using Networking.Commands;
+﻿using Networking.Commands;
+using ProtoBuf;
 
-namespace Networking.Networking.Packets
+namespace Networking.Packets
 {
 
     [ProtoContract]

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Networking.Networking.Packets;
+﻿using System.Linq;
+using Networking.Packets;
 
 namespace Networking.Commands
 {
@@ -29,7 +26,7 @@ namespace Networking.Commands
             if (args.Length < 2) throw new UnexpectedCommandArgumentException("Can't send empty Messages");
 
 
-            return new TextCommand() { Message = string.Join(" ", (args.Skip(1))) };
+            return new TextCommand { Message = string.Join(" ", (args.Skip(1))) };
         }
     }
 }

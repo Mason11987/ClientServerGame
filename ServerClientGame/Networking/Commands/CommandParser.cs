@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Networking.Commands;
 
 namespace Networking.Commands
 {
@@ -33,7 +31,7 @@ namespace Networking.Commands
             var command = FindReqeustedCommand(requestedCommandName);
 
             if (command == null)
-                return new NotFoundCommand() { Name = requestedCommandName };
+                return new NotFoundCommand { Name = requestedCommandName };
 
             try
             {
@@ -41,7 +39,7 @@ namespace Networking.Commands
             }
             catch (UnexpectedCommandArgumentException e)
             {
-                return new ErrorCommand() { Name = requestedCommandName, Exception = e };
+                return new ErrorCommand { Name = requestedCommandName, Exception = e };
             }
             
 

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.Threading;
-using Networking.Networking.Packets;
+using Networking.Packets;
 using ProtoBuf;
-using System.Diagnostics;
 using System.IO;
 using Networking.Commands;
 
@@ -22,34 +18,34 @@ namespace Networking
     {
         public Server Server { get { return NetworkManager.Server; } }
 
-        private TcpClient Connection;
-        private Thread CommThread;
+        private readonly TcpClient Connection;
+        private readonly Thread CommThread;
         NetworkStream CommStream;
 
         public string Name { get; set; }
-        public bool Connected { get { return Connection != null ? Connection.Connected : false; } }
+        public bool Connected { get { return Connection != null && Connection.Connected; } }
 
         private double lastClientPing;
 
         public string IP { get { return Connection.Client.RemoteEndPoint.ToString(); } }
         public bool RecentlyPinged { get { return Server.lastGameTime.TotalGameTime.TotalSeconds - lastClientPing < (Server.PingRate * 2 + 1); } }
 
-        public RemoteClient(string name, TcpClient connection, Server server)
+        public RemoteClient(string name, TcpClient connection)
         {
             Connection = connection;
-            CommThread = new Thread(new ParameterizedThreadStart(HandleClientCommunication));
+            CommThread = new Thread(HandleClientCommunication);
             Name = name;
 
-            this.CommThread.Start(this);
+            CommThread.Start(this);
         }
 
         #region Communication From Remote Client
         private void HandleClientCommunication(object sender)
         {
 
-            RemoteClient commClient = (RemoteClient)sender;
+            var commClient = (RemoteClient)sender;
             CommStream = commClient.Connection.GetStream();
-            if (Server == null)
+            if (Server == null || Server.lastGameTime == null)
                 lastClientPing = 0;
             else
                 lastClientPing = Server.lastGameTime.TotalGameTime.TotalSeconds;
@@ -57,21 +53,21 @@ namespace Networking
             while (Connection.Connected && RecentlyPinged)
             {
                 if (CommStream.DataAvailable)
-                    HandleClientData(CommStream);
+                    HandleClientData();
             }
 
-            Server.OnClientDisconnectedCommand(this, !Connection.Connected);
+            if (Server != null)
+                Server.OnClientDisconnectedCommand(this, !Connection.Connected);
 
             if (Connection.Connected)
                 Close();
         }
-
-        private void HandleClientData(NetworkStream CommStream)
+        
+        private void HandleClientData()
         {
-            Packet p;
             try
             {
-                p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
+                var p = Serializer.DeserializeWithLengthPrefix<Packet>(CommStream, PrefixStyle.Base128);
 
 
                 lastClientPing = Server.lastGameTime.TotalGameTime.TotalSeconds;
