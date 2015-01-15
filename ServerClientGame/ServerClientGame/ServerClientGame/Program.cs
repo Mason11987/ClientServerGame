@@ -1,11 +1,16 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+
 
 namespace ServerClientGame
 {
 #if WINDOWS || XBOX
     static class Program
     {
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
+        public static extern IntPtr FindWindowByCaption(IntPtr zeroOnly, string lpWindowName);
+
         static Game1 Game;
 
 

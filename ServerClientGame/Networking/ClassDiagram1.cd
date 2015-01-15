@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Networking.Client">
+    <Position X="23.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AISAAAIAQBAAAQEAAEAAAKAAIAAAAAQQgACAAgkAAAA=</HashCode>
+      <FileName>Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.CustomConsole" Collapsed="true">
+    <Position X="21.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAACAAAAAAQAAAQAIAAAAAACACAAgAAAAAQBAAAA=</HashCode>
+      <FileName>CustomConsole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.NetworkManager" Collapsed="true">
+    <Position X="23" Y="4.75" Width="1.5" />
+    <AssociationLine Name="Client" Type="Networking.Client" FixedFromPoint="true">
+      <Path>
+        <Point X="24.125" Y="5.312" />
+        <Point X="24.125" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Console" Type="Networking.CustomConsole" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="23.438" Y="5.312" />
+        <Point X="23.438" Y="5.893" />
+        <Point X="22.438" Y="5.893" />
+        <Point X="22.438" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Game" Type="Microsoft.Xna.Framework.Game" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="24.25" Y="5.312" />
+        <Point X="24.25" Y="5.687" />
+        <Point X="26.094" Y="5.687" />
+        <Point X="26.094" Y="6.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.085" Y="-0.005" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Server" Type="Networking.Server" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="23.125" Y="5.312" />
+        <Point X="23.125" Y="5.893" />
+        <Point X="20.75" Y="5.893" />
+        <Point X="20.75" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAgAAAAQ=</HashCode>
+      <FileName>NetworkManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Client" />
+      <Property Name="Console" />
+      <Property Name="Game" />
+      <Property Name="Server" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Networking.RemoteClient" Collapsed="true">
+    <Position X="18" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgACAQAEQAEAAAAQAIIAIAAAAAAAAAgGQAAA=</HashCode>
+      <FileName>RemoteClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Server" Collapsed="true">
+    <Position X="20" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKSgAIAAAACAEQUgACBAAAAQCACAgAQAiAiCEAAAAEA=</HashCode>
+      <FileName>Server.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Clients" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Networking.Commands.ClientsCommand" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.Command" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAChEAAAAAAAAAQCAAAAAAAAAAgAAAAAAAAAAgAAAAQ=</HashCode>
+      <FileName>Commands\Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Commands.CommandParser">
+    <Position X="28.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABAAAg=</HashCode>
+      <FileName>Commands\CommandParser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="availableCommands" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Networking.Commands.CommandResult">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAAABAAAAAEAAA=</HashCode>
+      <FileName>Commands\CommandResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Commands.ConnectCommand" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQIAAKAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ConnectCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.DisconnectCommand" Collapsed="true">
+    <Position X="21.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\DisconnectCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.ErrorCommand" Collapsed="true">
+    <Position X="1.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Commands\ErrorCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Commands.ExitCommand" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ExitCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.HelpCommand" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\HelpCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.IdentifyCommand" Collapsed="true">
+    <Position X="17.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAQAAAgAASAAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\IdentifyCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.NotFoundCommand" Collapsed="true">
+    <Position X="24" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\NotFoundCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Commands.SayCommand" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAQAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Commands\SayCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.SettingsCommand" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQQAAAAAAAAAAAAAgAABAAAA=</HashCode>
+      <FileName>Commands\SettingsCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.TextCommand" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAASAAAAAQAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Commands\TextCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Networking.Commands.UnexpectedCommandArgumentException" Collapsed="true">
+    <Position X="25.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\UnexpectedCommandArgumentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Packets.Packet" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Packets\Packet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Packets.PacketConsoleCommand" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Packets\PacketConsoleCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking.Packets.PacketPing" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Packets\PacketPing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Xna.Framework.Game" Collapsed="true">
+    <Position X="25.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Networking.Commands.ICommandFactory">
+    <Position X="26.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAACAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ICommandFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Networking.Commands.ConsoleCommandType" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAIBAAAACAAAIAAAAAAAAAAIAAACAEAABA=</HashCode>
+      <FileName>Commands\Command.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Networking.Packets.PacketType" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAQAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Packets\Packet.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

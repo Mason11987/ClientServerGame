@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DC66DF5D-014D-43A2-B786-D1739176BE06}</ProjectGuid>
+    <ProjectGuid>{0A779E5B-0E74-4257-8FFC-E91C84070473}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Networking</RootNamespace>
-    <AssemblyName>Networking</AssemblyName>
+    <RootNamespace>XNAHelperFunctions</RootNamespace>
+    <AssemblyName>XNAHelperFunctions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -34,10 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="protobuf-net">
-      <HintPath>..\protobuf-net.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,34 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ClientsCommand.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandParser.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Commands\ConnectCommand.cs" />
-    <Compile Include="Commands\DisconnectCommand.cs" />
-    <Compile Include="Commands\ErrorCommand.cs" />
-    <Compile Include="Commands\ExitCommand.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\ICommandFactory.cs" />
-    <Compile Include="Commands\IdentifyCommand.cs" />
-    <Compile Include="Commands\NotFoundCommand.cs" />
-    <Compile Include="Commands\SayCommand.cs" />
-    <Compile Include="Commands\SettingsCommand.cs" />
-    <Compile Include="Commands\TextCommand.cs" />
-    <Compile Include="Commands\UnexpectedCommandArgumentException.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="CustomConsole.cs" />
-    <Compile Include="NetworkManager.cs" />
-    <Compile Include="Packets\Packet.cs" />
-    <Compile Include="Packets\PacketConsoleCommand.cs" />
-    <Compile Include="Packets\PacketPing.cs" />
-    <Compile Include="RemoteClient.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="PrimitiveDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

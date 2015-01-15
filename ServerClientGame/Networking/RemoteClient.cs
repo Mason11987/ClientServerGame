@@ -28,7 +28,7 @@ namespace Networking
         private double lastClientPing;
 
         public string IP { get { return Connection.Client.RemoteEndPoint.ToString(); } }
-        public bool RecentlyPinged { get { return Server.lastGameTime.TotalGameTime.TotalSeconds - lastClientPing < (Server.PingRate * 2 + 1); } }
+        public bool RecentlyPinged { get { return Server == null || Server.lastGameTime == null ? false : Server.lastGameTime.TotalGameTime.TotalSeconds - lastClientPing < (Server.PingRate * 2 + 1); } }
 
         public RemoteClient(string name, TcpClient connection)
         {

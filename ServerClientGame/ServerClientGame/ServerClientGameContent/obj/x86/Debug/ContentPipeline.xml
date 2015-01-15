@@ -7,15 +7,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGameContent\</RootDirectory>
-      <LoggerRootDirectory>D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGameContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGameContent\</RootDirectory>
+      <LoggerRootDirectory>C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGameContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2014-03-15T23:04:43.8723268-04:00</Value>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2014-04-08T10:22:10.9336904-04:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

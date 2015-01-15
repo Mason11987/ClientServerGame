@@ -24,3 +24,5 @@ D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame
 D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.dll
 D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\protobuf-net.dll
 D:\Documents\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\Networking.pdb
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\XNAHelperFunctions.dll
+C:\OneDrive\Documents\Code\DotNet\ServerClientGame\ServerClientGame\ServerClientGame\ServerClientGame\bin\x86\Debug\XNAHelperFunctions.pdb
